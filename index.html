@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>a small place</title>
+
+<style>
+body {
+  margin:0;
+  background:#0e0e0e;
+  color:#e8e8e8;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  text-align:center;
+}
+
+.container {
+  max-width:500px;
+  padding:30px;
+}
+
+button {
+  background:none;
+  border:1px solid #888;
+  color:#ddd;
+  padding:10px 20px;
+  margin-top:25px;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover { border-color:white; }
+
+.fade { opacity:0; transition:1s; }
+.show { opacity:1; }
+
+.progress {
+  width:100%;
+  height:6px;
+  background:#333;
+  margin-top:25px;
+  overflow:hidden;
+}
+.bar {
+  height:100%;
+  width:0%;
+  background:#ddd;
+  transition:width 20s linear;
+}
+
+.objects span {
+  display:block;
+  margin-top:18px;
+  cursor:pointer;
+  color:#aaa;
+}
+.objects span:hover { color:#fff; }
+
+.small { font-size:14px; color:#aaa; margin-top:20px; }
+</style>
+
+</head>
+
+<body>
+
+<div class="container" id="screen1">
+  <div class="show">
+    <div>You don’t have to reply here.</div>
+    <button onclick="enterRoom()">enter</button>
+  </div>
+</div>
+
+<div class="container fade" id="screen2">
+  <div>You had a long day.<br>stay for 20 seconds.</div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+</div>
+
+<div class="container fade" id="screen3">
+  <div>okay… hug complete</div>
+
+  <div class="objects">
+    <span onclick="msg('borrowed.')">sweater</span>
+    <span onclick="msg('stay as long as you want.')">lamp</span>
+    <span onclick="msg('im here. no questions.')">window</span>
+  </div>
+
+  <div class="small" id="extra"></div>
+</div>
+
+<script>
+function enterRoom(){
+  document.getElementById("screen1").style.display="none";
+  let s2=document.getElementById("screen2");
+  s2.classList.add("show");
+
+  setTimeout(()=>{
+    document.getElementById("bar").style.width="100%";
+  },200);
+
+  setTimeout(()=>{
+    s2.style.display="none";
+    document.getElementById("screen3").classList.add("show");
+  },20000);
+}
+
+function msg(text){
+  document.getElementById("extra").innerText=text;
+}
+</script>
+
+</body>
+</html>
