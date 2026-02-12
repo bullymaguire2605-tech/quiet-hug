@@ -65,7 +65,12 @@ button:hover{ border-color:white; }
 }
 .objects span:hover{ color:#fff; }
 
-.small{ font-size:14px; color:#aaa; margin-top:20px; min-height:20px; }
+.small{
+  font-size:14px;
+  color:#aaa;
+  margin-top:20px;
+  min-height:20px;
+}
 </style>
 
 </head>
@@ -91,7 +96,7 @@ button:hover{ border-color:white; }
 <div class="container fade" id="screen3">
   <div>okay… hug complete</div>
 
-<button onclick="toggleAudio()" id="musicBtn">play room sound</button> <audio id="bgm" loop> <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b3a1f.mp3?filename=calm-ambient-110397.mp3" type="audio/mpeg"> </audio>
+<button onclick="toggleAudio()" id="musicBtn">play room sound</button> <audio id="bgm" loop preload="none"> <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b3a1f.mp3?filename=calm-ambient-110397.mp3" type="audio/mpeg"> </audio>
 
   <div class="objects">
     <span onclick="msg('borrowed.')">sweater</span>
@@ -123,16 +128,28 @@ function msg(text){
   document.getElementById("extra").innerText=text;
 }
 
+/* audio that works on mobile + desktop */
 let playing=false;
+const audio=document.getElementById("bgm");
+const btn=document.getElementById("musicBtn");
+
 function toggleAudio(){
-  const audio=document.getElementById("bgm");
-  const btn=document.getElementById("musicBtn");
 
   if(!playing){
     audio.volume=0.35;
-    audio.play();
-    btn.innerText="mute";
-    playing=true;
+    audio.currentTime=0;
+
+    const playPromise = audio.play();
+
+    if(playPromise !== undefined){
+      playPromise.then(()=>{
+        btn.innerText="mute";
+        playing=true;
+      }).catch(()=>{
+        btn.innerText="tap again";
+      });
+    }
+
   }else{
     audio.pause();
     btn.innerText="play room sound";
