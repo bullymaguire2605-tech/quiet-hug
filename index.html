@@ -7,24 +7,29 @@
 <title>a small place</title>
 
 <style>
-body {
+body{
   margin:0;
   background:#0e0e0e;
   color:#e8e8e8;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   text-align:center;
 }
 
-.container {
-  max-width:500px;
+/* perfect centering */
+.container{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  max-width:520px;
+  margin:auto;
   padding:30px;
+  box-sizing:border-box;
 }
 
-button {
+button{
   background:none;
   border:1px solid #888;
   color:#ddd;
@@ -33,54 +38,60 @@ button {
   cursor:pointer;
   transition:.3s;
 }
-button:hover { border-color:white; }
+button:hover{ border-color:white; }
 
-.fade { opacity:0; transition:1s; }
-.show { opacity:1; }
+.fade{ opacity:0; pointer-events:none; }
+.show{ opacity:1; pointer-events:auto; transition:opacity 1s; }
 
-.progress {
+.progress{
   width:100%;
   height:6px;
   background:#333;
   margin-top:25px;
   overflow:hidden;
 }
-.bar {
+.bar{
   height:100%;
   width:0%;
   background:#ddd;
   transition:width 20s linear;
 }
 
-.objects span {
+.objects span{
   display:block;
   margin-top:18px;
   cursor:pointer;
   color:#aaa;
 }
-.objects span:hover { color:#fff; }
+.objects span:hover{ color:#fff; }
 
-.small { font-size:14px; color:#aaa; margin-top:20px; }
+.small{ font-size:14px; color:#aaa; margin-top:20px; min-height:20px; }
 </style>
 
 </head>
 
 <body>
 
-<div class="container" id="screen1">
-  <div class="show">
-    <div>You don’t have to reply here.</div>
-    <button onclick="enterRoom()">enter</button>
-  </div>
+<!-- screen 1 -->
+
+<div class="container show" id="screen1">
+  <div>You don’t have to reply here.</div>
+  <button onclick="enterRoom()">enter</button>
 </div>
+
+<!-- screen 2 -->
 
 <div class="container fade" id="screen2">
   <div>You had a long day.<br>stay for 20 seconds.</div>
   <div class="progress"><div class="bar" id="bar"></div></div>
 </div>
 
+<!-- screen 3 -->
+
 <div class="container fade" id="screen3">
   <div>okay… hug complete</div>
+
+<button onclick="toggleAudio()" id="musicBtn">play room sound</button> <audio id="bgm" loop> <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b3a1f.mp3?filename=calm-ambient-110397.mp3" type="audio/mpeg"> </audio>
 
   <div class="objects">
     <span onclick="msg('borrowed.')">sweater</span>
@@ -93,22 +104,40 @@ button:hover { border-color:white; }
 
 <script>
 function enterRoom(){
-  document.getElementById("screen1").style.display="none";
+  document.getElementById("screen1").classList.replace("show","fade");
+
   let s2=document.getElementById("screen2");
-  s2.classList.add("show");
+  s2.classList.replace("fade","show");
 
   setTimeout(()=>{
     document.getElementById("bar").style.width="100%";
   },200);
 
   setTimeout(()=>{
-    s2.style.display="none";
-    document.getElementById("screen3").classList.add("show");
+    s2.classList.replace("show","fade");
+    document.getElementById("screen3").classList.replace("fade","show");
   },20000);
 }
 
 function msg(text){
   document.getElementById("extra").innerText=text;
+}
+
+let playing=false;
+function toggleAudio(){
+  const audio=document.getElementById("bgm");
+  const btn=document.getElementById("musicBtn");
+
+  if(!playing){
+    audio.volume=0.35;
+    audio.play();
+    btn.innerText="mute";
+    playing=true;
+  }else{
+    audio.pause();
+    btn.innerText="play room sound";
+    playing=false;
+  }
 }
 </script>
 
