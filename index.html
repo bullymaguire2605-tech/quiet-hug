@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -34,7 +33,7 @@ button{
   border:1px solid #888;
   color:#ddd;
   padding:10px 20px;
-  margin-top:25px;
+  margin-top:20px;
   cursor:pointer;
   transition:.3s;
 }
@@ -72,31 +71,30 @@ button:hover{ border-color:white; }
   min-height:20px;
 }
 </style>
-
 </head>
 
 <body>
 
-<!-- screen 1 -->
+<audio id="bgm" loop preload="auto">
+  <source src="room.mp3" type="audio/mpeg">
+</audio>
 
+<!-- screen 1 -->
 <div class="container show" id="screen1">
   <div>You don’t have to reply here.</div>
+  <button onclick="toggleAudio()" id="musicBtn">play room sound</button>
   <button onclick="enterRoom()">enter</button>
 </div>
 
 <!-- screen 2 -->
-
 <div class="container fade" id="screen2">
   <div>You had a long day.<br>stay for 20 seconds.</div>
   <div class="progress"><div class="bar" id="bar"></div></div>
 </div>
 
 <!-- screen 3 -->
-
 <div class="container fade" id="screen3">
   <div>okay… hug complete</div>
-
-<button onclick="toggleAudio()" id="musicBtn">play room sound</button> <audio id="bgm" loop preload="none"> <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b3a1f.mp3?filename=calm-ambient-110397.mp3" type="audio/mpeg"> </audio>
 
   <div class="objects">
     <span onclick="msg('borrowed.')">sweater</span>
@@ -108,6 +106,23 @@ button:hover{ border-color:white; }
 </div>
 
 <script>
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+let playing = false;
+
+function toggleAudio(){
+  if(!playing){
+    audio.volume = 0.35;
+    audio.play();
+    btn.innerText = "mute";
+    playing = true;
+  } else {
+    audio.pause();
+    btn.innerText = "play room sound";
+    playing = false;
+  }
+}
+
 function enterRoom(){
   document.getElementById("screen1").classList.replace("show","fade");
 
@@ -126,35 +141,6 @@ function enterRoom(){
 
 function msg(text){
   document.getElementById("extra").innerText=text;
-}
-
-/* audio that works on mobile + desktop */
-let playing=false;
-const audio=document.getElementById("bgm");
-const btn=document.getElementById("musicBtn");
-
-function toggleAudio(){
-
-  if(!playing){
-    audio.volume=0.35;
-    audio.currentTime=0;
-
-    const playPromise = audio.play();
-
-    if(playPromise !== undefined){
-      playPromise.then(()=>{
-        btn.innerText="mute";
-        playing=true;
-      }).catch(()=>{
-        btn.innerText="tap again";
-      });
-    }
-
-  }else{
-    audio.pause();
-    btn.innerText="play room sound";
-    playing=false;
-  }
 }
 </script>
 
