@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -71,6 +72,7 @@ button:hover{ border-color:white; }
   min-height:20px;
 }
 </style>
+
 </head>
 
 <body>
@@ -80,6 +82,7 @@ button:hover{ border-color:white; }
 </audio>
 
 <!-- screen 1 -->
+
 <div class="container show" id="screen1">
   <div>You don’t have to reply here.</div>
   <button onclick="toggleAudio()" id="musicBtn">play audio</button>
@@ -87,12 +90,14 @@ button:hover{ border-color:white; }
 </div>
 
 <!-- screen 2 -->
+
 <div class="container fade" id="screen2">
   <div>You had a long day.<br>stay for 20 seconds.</div>
   <div class="progress"><div class="bar" id="bar"></div></div>
 </div>
 
 <!-- screen 3 -->
+
 <div class="container fade" id="screen3">
   <div>okay… hug complete</div>
 
@@ -136,14 +141,26 @@ function enterRoom(){
   setTimeout(()=>{
     s2.classList.replace("show","fade");
     document.getElementById("screen3").classList.replace("fade","show");
+    revealLinger();
   },20000);
 }
 
 function msg(text){
   document.getElementById("extra").innerText=text;
 }
+
+/* hidden linger message */
+let lingerTimer;
+function revealLinger(){
+  lingerTimer = setTimeout(()=>{
+    document.getElementById("extra").innerText =
+    "you can stay. im doing my own thing here too.";
+  },45000);
+}
 </script>
 
 </body>
 </html>
+
+
 
