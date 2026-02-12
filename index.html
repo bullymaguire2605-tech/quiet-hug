@@ -70,6 +70,7 @@ button:hover{ border-color:white; }
   color:#aaa;
   margin-top:20px;
   min-height:20px;
+  transition:opacity .25s;
 }
 </style>
 
@@ -103,8 +104,8 @@ button:hover{ border-color:white; }
 
   <div class="objects">
     <span onclick="msg('borrowed.')">sweater</span>
-    <span onclick="msg('stay as long as you want.')">lamp</span>
-    <span onclick="msg('im here. no questions.')">window</span>
+    <span onclick="msg('kept.')">heart</span>
+    <span onclick="msg('im here. no questions. i know you hate questions')">question</span>
   </div>
 
   <div class="small" id="extra"></div>
@@ -145,8 +146,16 @@ function enterRoom(){
   },20000);
 }
 
+/* softer text change */
+let textTimer;
 function msg(text){
-  document.getElementById("extra").innerText=text;
+  clearTimeout(textTimer);
+  const el=document.getElementById("extra");
+  el.style.opacity=0;
+  setTimeout(()=>{
+    el.innerText=text;
+    el.style.opacity=1;
+  },150);
 }
 
 /* hidden linger message */
