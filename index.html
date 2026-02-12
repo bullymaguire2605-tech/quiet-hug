@@ -82,7 +82,7 @@ button:hover{ border-color:white; }
 <!-- screen 1 -->
 <div class="container show" id="screen1">
   <div>You don’t have to reply here.</div>
-  <button onclick="toggleAudio()" id="musicBtn">play room sound</button>
+  <button onclick="toggleAudio()" id="musicBtn">play audio</button>
   <button onclick="enterRoom()">enter</button>
 </div>
 
@@ -118,7 +118,7 @@ function toggleAudio(){
     playing = true;
   } else {
     audio.pause();
-    btn.innerText = "play room sound";
+    btn.innerText = "play audio";
     playing = false;
   }
 }
@@ -146,3 +146,4 @@ function msg(text){
 
 </body>
 </html>
+
